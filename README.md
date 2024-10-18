@@ -24,6 +24,7 @@ WanderLust is a mini clone of Airbnb built using Node.js and Express. This proje
 - **Authentication:** Passport.js or JWT for user authentication
 - **Image Storage:** Cloudinary (for uploading and managing images)
 - **Frontend:** Bootstrap, Ejs
+- MVC Framework
 ## Setup Instructions
 
 ### Prerequisites
