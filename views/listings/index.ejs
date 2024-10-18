@@ -1,0 +1,214 @@
+<% layout('layout/boilerplate') -%>
+
+<body>
+  <style>
+    #filters {
+      display: flex;
+      align-items: center; /* Center items vertically */
+      justify-content: space-between; /* Space between filters and toggle */
+    }
+
+    .all-filter {
+      display: flex;
+      overflow-x: hidden; /* Hide horizontal scrollbar */
+      padding: 10px 0; /* Add some vertical padding */
+      flex-wrap: nowrap; /* Prevent wrapping to new lines */
+      scrollbar-width: none; /* For Firefox */
+    }
+
+    .all-filter::-webkit-scrollbar {
+      display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+    }
+
+    .filter {
+      min-width: 120px; /* Minimum width for each filter */
+      margin-right: 15px; /* Spacing between filters */
+      text-align: center; /* Center text and icons */
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+
+    .filter:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+
+    .filter p {
+      font-size: 0.8rem;
+    }
+
+    .tax-toggle {
+      border: 1px solid rgb(54, 53, 53);
+      border-radius: 1rem;
+      height: 3.5rem;
+      width: 15rem;
+      padding: 1rem;
+      margin-left: auto; /* Push to the right */
+      display: flex;
+      align-items: center;
+    }
+
+    .scroll-button {
+      cursor: pointer; /* Change cursor to pointer on hover */
+      margin-left: 10px; /* Space between button and filters */
+    }
+
+    /* Custom styles for red toggle switch */
+    .form-check-input[type="checkbox"]:checked {
+      background-color: #fe424d; /* Background color when checked */
+    }
+
+    .form-check-input[type="checkbox"]:checked::before {
+      background-color: #fe424d; /* Color of the toggle circle when checked */
+    }
+
+    .form-check-input[type="checkbox"] {
+      border-color: #fe424d; /* Border color of the toggle switch */
+    }
+
+    .form-check-input[type="checkbox"]:focus {
+      box-shadow: none; /* Remove focus outline */
+    }
+  </style>
+
+  <div id="filters">
+    <!-- Scroll Icon for Left -->
+    <span id="scrollLeft" class="scroll-button"
+      ><i class="fas fa-chevron-left"></i
+    ></span>
+
+    <div class="all-filter">
+      <div class="filter">
+        <div><i class="fa-solid fa-fire"></i></div>
+        <p>Trending</p>
+      </div>
+
+      <div class="filter">
+        <div><i class="fa-solid fa-mountain"></i></div>
+        <p>Room</p>
+      </div>
+
+      <div class="filter">
+        <div><i class="fa-solid fa-mountain-city"></i></div>
+        <p>Iconic Cities</p>
+      </div>
+
+      <div class="filter">
+        <div><i class="fa-solid fa-bed"></i></div>
+        <p>Mountains</p>
+      </div>
+
+      <div class="filter">
+        <div><i class="fa-brands fa-fort-awesome"></i></div>
+        <p>Castles</p>
+      </div>
+
+      <div class="filter">
+        <div><i class="fa-solid fa-person-swimming"></i></div>
+        <p>Amazing Pools</p>
+      </div>
+
+      <div class="filter">
+        <div><i class="fa-solid fa-tents"></i></div>
+        <p>Camping</p>
+      </div>
+
+      <div class="filter">
+        <div><i class="fa-solid fa-cow"></i></div>
+        <p>Farms</p>
+      </div>
+
+      <div class="filter">
+        <div><i class="fa-solid fa-snowflake"></i></div>
+        <p>Arctic</p>
+      </div>
+
+      <div class="filter">
+        <div><i class="fa-solid fa-igloo"></i></div>
+        <p>Domes</p>
+      </div>
+
+      <div class="filter">
+        <div><i class="fa-solid fa-ship"></i></div>
+        <p>House Boat</p>
+      </div>
+    </div>
+
+    <!-- Scroll Icon -->
+    <span id="scrollRight" class="scroll-button"
+      ><i class="fas fa-chevron-right"></i
+    ></span>
+
+    <!-- Tax Toggle -->
+    <div class="tax-toggle ms-3">
+      <div class="form-check form-switch">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          role="switch"
+          id="flexSwitchCheckDefault"
+        />
+        <label class="form-check-label" for="flexSwitchCheckDefault"
+          >Display Taxs</label
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+    <%for(listing of listings) {%>
+    <a href="/listing/<%=listing._id%>" class="listing-link">
+      <div class="card col listing-card">
+        <img
+          src="<%= listing.image.url %>"
+          class="card-img-top"
+          alt="Listing image"
+          height="300rem"
+        />
+        <div class="card-img-overlay"></div>
+        <div class="card-body">
+          <p class="card-text">
+            <b><%= listing.title %><br /> </b>
+            &#x09F3; <%=listing.price.toLocaleString("en-IN")%>
+            <i class="tax-info"> &nbsp;&nbsp; +15% tax</i>
+          </p>
+        </div>
+      </div>
+    </a>
+    <%}%>
+  </div>
+</body>
+
+<script>
+  let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+  taxSwitch.addEventListener("click", () => {
+    let taxInfo = document.getElementsByClassName("tax-info");
+    for (info of taxInfo) {
+      if (info.style.display != "inline") {
+        info.style.display = "inline";
+      } else {
+        info.style.display = "none";
+      }
+    }
+  });
+
+  // Scroll functionality for the right icon
+  document.getElementById("scrollRight").addEventListener("click", function () {
+    const filterContainer = document.querySelector(".all-filter");
+    filterContainer.scrollBy({
+      top: 0,
+      left: 150, // Adjust this value to control scroll distance
+      behavior: "smooth", // Smooth scroll effect
+    });
+  });
+
+  // Scroll functionality for the left icon
+  document.getElementById("scrollLeft").addEventListener("click", function () {
+    const filterContainer = document.querySelector(".all-filter");
+    filterContainer.scrollBy({
+      top: 0,
+      left: -150, // Negative value for left scroll
+      behavior: "smooth", // Smooth scroll effect
+    });
+  });
+</script>
